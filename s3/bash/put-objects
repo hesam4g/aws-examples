@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+if [ $# -eq 2 ]; then
+    echo "\"$2\" is going to be put in \"$1\""
+else
+    echo "You provided $# arguments. Please provide exactly two arguments."
+    echo "E.g. ./put-object my-bucket-name file-name"
+    exit -1
+fi
+filename=$(basename "$2")
+echo 
+aws s3api put-object \
+    --bucket $1 \
+    --body $2\
+    --key $filename

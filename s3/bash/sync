@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+
+# Directory where files will be created
+target_dir="./output"
+
+
+if [ $# -eq 1 ]; then
+    echo "Folder \"$target_dir\" will be synced to the bucker \"$1\""
+else
+    echo "You provided $# arguments. Please provide exactly one argument."
+    echo "E.g. ./sync my-bucket-name"
+    exit -1
+fi
+
+# check if target_dir exists
+if [ -d "$target_dir" ]; then
+  echo "$target_dir does exist."
+  rm -rf $target_dir
+fi
+
+# Create the directory if it doesn't exist
+mkdir -p "$target_dir"
+
+# Random number of files to create (between 5 and 10)
+num_files=$((RANDOM % 6 + 5))  # 0-5 + 5 → 5-10
+
+echo "Creating $num_files .txt files in '$target_dir'..."
+
+for i in $(seq 1 $num_files); do
+    filename="$target_dir/file_$i.txt"
+    echo "This is file number $i with some example text." > "$filename"
+    echo "Created: $filename"
+done
+
+aws s3 sync $target_dir s3://$1/syncDir

@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# aws s3api list-buckets --output text
+aws s3 ls

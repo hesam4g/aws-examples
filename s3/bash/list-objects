@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+if [ $# -eq 1 ]; then
+    echo "Here is the list of object in the bucket \"$1\""
+else
+    echo "You provided $# arguments. Please provide exactly one argument."
+    echo "E.g. ./list-objects my-bucket-name"
+fi
+
+#!/usr/bin/env zsh
+
+if [ $# -eq 1 ]; then
+    echo "The list of objects in the bucket \"$1\""
+else
+    echo "You provided $# arguments. Please provide exactly one argument."
+    echo "E.g. ./list-objects my-bucket-name"
+    exit -1
+fi
+
+# aws s3api list-objects-v2 \
+#     --bucket $1 \
+#     --output json
+
+aws s3api list-objects \
+    --bucket $1\
+    --query 'Contents[].{Key: Key, Size: Size}'

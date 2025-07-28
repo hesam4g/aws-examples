@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+if [ $# -eq 1 ]; then
+    echo "The bucket \"$1\" is going to be created"
+else
+    echo "You provided $# arguments. Please provide exactly one argument."
+    echo "E.g. ./create-bucket my-bucket-name"
+    exit -1
+fi
+
+aws s3api create-bucket \
+    --bucket $1 \
+    --create-bucket-configuration="LocationConstraint=ca-central-1" \
+    --query Location \
+    --output text
