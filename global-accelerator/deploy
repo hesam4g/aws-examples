@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+
+
+echo "Global Accelerator Example"
+
+STACK_NAME="aws-global-accelerator-example"
+
+
+aws cloudformation deploy
+    --template-file template.yaml• \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --no-execute-changeset \
+    --region ca-central-1 \
+    -- stack-name $STACK_NAME

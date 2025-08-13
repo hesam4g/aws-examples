@@ -1,0 +1,42 @@
+Resources:
+  UserHesam:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "hesam-user"
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/job-function/ViewOnlyAccess
+      Policies: 
+        - PolicyName: MyCoolPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+                - Sid: IamListAccess
+                  Effect: Allow
+                  Action:
+                  - 'iam:ListRoles'
+                  - 'iam:ListUsers'
+                  Resource: '*'
+  MyFirstInlinePolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: hesam-first-inline-policy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: 'ec2:*'
+            Resource: '*'
+      Users:
+        - !Ref UserHesam
+
+  MySecondInlinePolicy:
+    Type: 'AWS::IAM::UserPolicy'
+    Properties:
+      PolicyName: hesam-second-inline-policy
+      UserName: !Ref UserHesam
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: 's3:*'
+            Resource: '*'
